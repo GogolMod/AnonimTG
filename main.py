@@ -22,7 +22,24 @@ def Massage_step1(message):
     bot.reply_to(message, "Cобщение записанно")
 #   bot.register_next_step_handler(message, "")
 
+@bot.message_handler(commands=['Get'])
+def get(massage):
+    key = '1'
+    if key == userID_massage:
+        con = sql.connect('record_vidio1.db')
+        with con:
+            cur = con.cursor()
+            cur.execute("CREATE TABLE IF NOT EXISTS `test` (`name` STRING, `surname` STRING, `userID` STRING)")
+            cur.execute("SELECT * FROM `test`")
+            rows = cur.fetchall()
+            row = rows[-1]
+            exp = row[1] + " - " + row[0]
+            bot.send_message(message.chat.id, exp)
+            print(exp)
 
+            print("Последние видио")
+            con.commit()
+            cur.close()
 
 
 
